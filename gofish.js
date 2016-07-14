@@ -29,6 +29,30 @@ var player2TotalPoints = 0;
 var duplicates = 0;
 var numDuplicates = 0;
 //Game Logic
+
+function initCardsArray(){
+	for (var j = 0; j < 4; j++) {
+		
+		for (var i = 1; i < (numberOfCards/4) + 1; i++) {
+			switch (j) {
+				case 0:
+					cardsArray.push(i + '(S)');
+					break;
+				case 1:
+					cardsArray.push(i + '(H)');
+					break;
+				case 2:
+					cardsArray.push(i + '(C)');
+					break;
+				case 3:
+					cardsArray.push(i + '(D)');
+					break;
+			}			
+		}
+	}
+	return cardsArray;
+}
+
 /**
  * Randomize array element order in-place.
  * Using Durstenfeld shuffle algorithm.
@@ -63,6 +87,7 @@ function removeDuplicates(arr) {
 function shuffleCards() {
 	return shuffledArray = shuffleArray(cardsArray).slice();
 }
+
 function resetValues() {
 	cardsArray = [];
 	shuffledArray = [];
@@ -75,21 +100,21 @@ function resetValues() {
 	numDuplicates = 0;
 	currentPlayer.innerHTML = 'Player ' + whosTurn;
 }
+
 function dealCards() {
-	
 	//deal random cards to each player
 	for (var i = 0; i < cardsPerPlayer;i++) {
 		player1.push(shuffledArray[i*numberOfPlayers]);
 		player2.push(shuffledArray[i*numberOfPlayers + 1]);
 	}
-	console.log(player1);
-	console.log(player2);
+	console.log("Initial Hand P1: ", player1);
+	console.log("Initial Hand P2: ", player2);
 	removeInitialPairs();
 	//get remainder of cards top put in draw pile
 	shuffledArray.splice(0, shuffledArray.length - (numberOfCards - (cardsPerPlayer * numberOfPlayers)));
 	cardsRemaining.innerHTML = shuffledArray;
-	
 }
+
 function removeInitialPairs() {
 	//remove pairs in players hand
 	player1OriginalLength = player1.length;
@@ -122,10 +147,12 @@ function removeInitialPairs() {
 	//Set the current player when the game starts
 	currentPlayer.innerHTML = "Player " + whosTurn;
 }
+
 function checkForMatch() {
 	if (whosTurn === 1) {
 		if (player2.indexOf(cardToMatchValue) != -1 ){
 			console.log("MATCH P1");
+			
 			var filteredArray1 = player1.filter(function(e){
 				return e!==cardToMatchValue;
 			});
@@ -140,29 +167,24 @@ function checkForMatch() {
 			
 			player1 = filteredArray1;
 			player2 = filteredArray2;
-			player1Cards.innerHTML = player1;
-			player2Cards.innerHTML = player2;
-			cardsRemaining.innerHTML = shuffledArray;
 			
 		} else {
 			console.log("GO FISH!");
 			player1.push(shuffledArray[0]);
+			initPlayer1 = player1;
 			player1 = removeDuplicates(player1);
-			if (duplicates) {
+			if (initPlayer1.length > player1.length) {
 				player1TotalPoints += 1;
 				player1Points.innerHTML = player1TotalPoints;
 			}
-			player1Cards.innerHTML = player1;
-			player2Cards.innerHTML = player2;
 			shuffledArray.shift();
-			cardsRemaining.innerHTML = shuffledArray;
 		}
 		whosTurn = 2;
-		currentPlayer.innerHTML = "Player " + whosTurn;
 	} 
 	else {
 		if (player1.indexOf(cardToMatchValue) != -1 ){
 			console.log("MATCH P2");
+			
 			var filteredArray1 = player1.filter(function(e){
 				return e!==cardToMatchValue;
 			});
@@ -177,30 +199,28 @@ function checkForMatch() {
 			
 			player1 = filteredArray1;
 			player2 = filteredArray2;
-			player1Cards.innerHTML = player1;
-			player2Cards.innerHTML = player2;
-			cardsRemaining.innerHTML = shuffledArray;
 			
 		} else {
 			console.log("GO FISH");
 			player2.push(shuffledArray[0]);
+			initPlayer2 = player2;
 			player2 = removeDuplicates(player2);
-			console.log(duplicates);
-			if (duplicates) {
+			if (initPlayer2.length > player2.length) {
 				player2TotalPoints += 1;
 				player2Points.innerHTML = player2TotalPoints;
 			}
-			player1Cards.innerHTML = player1;
-			player2Cards.innerHTML = player2;
 			shuffledArray.shift();
-			cardsRemaining.innerHTML = shuffledArray;
 		}
 		whosTurn = 1;
-		currentPlayer.innerHTML = "Player " + whosTurn;
 	}
+	
+	player1Cards.innerHTML = player1;
+	player2Cards.innerHTML = player2;
+	cardsRemaining.innerHTML = shuffledArray;
+	currentPlayer.innerHTML = "Player " + whosTurn;
 }
 
-// Click to start Game
+// Click events
 startGameBtn.onclick = function() {
 	resetValues();
 	initCardsArray();
@@ -210,23 +230,15 @@ startGameBtn.onclick = function() {
 };
 
 cardValueBtn.onclick = function() {
-	if (cardToMatchInput === '' ) {
+	if (cardToMatchInput.value === '' ) {
 		console.log("Value cannot be blank");
+		cardToMatchInput.style.border = '1px solid red';
+		return;
 	} else {
 		cardToMatchValue = parseInt(cardToMatchInput.value);
 		checkForMatch();
 	}
 };
-
-function initCardsArray(){
-	for (var j = 0; j < 4; j++) {
-		for (var i = 1; i < (numberOfCards/4) + 1; i++) {
-			cardsArray.push(i);
-		}
-	}
-	return cardsArray;
-}
-
 
 //resultsContainer.innerHTML = cardsArray;
 
