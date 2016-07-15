@@ -34,23 +34,28 @@ function initCardsArray(){
 	for (var j = 0; j < 4; j++) {
 		
 		for (var i = 1; i < (numberOfCards/4) + 1; i++) {
-			switch (j) {
-				case 0:
-					cardsArray.push(i + '(S)');
-					break;
-				case 1:
-					cardsArray.push(i + '(H)');
-					break;
-				case 2:
-					cardsArray.push(i + '(C)');
-					break;
-				case 3:
-					cardsArray.push(i + '(D)');
-					break;
-			}			
+//			switch (j) {
+//				case 0:
+//					cardsArray.push(i + '(S)');
+//					break;
+//				case 1:
+//					cardsArray.push(i + '(H)');
+//					break;
+//				case 2:
+//					cardsArray.push(i + '(C)');
+//					break;
+//				case 3:
+//					cardsArray.push(i + '(D)');
+//					break;
+//			}			
+			cardsArray.push(i);
 		}
 	}
 	return cardsArray;
+}
+
+function changeCardsToNames(){
+	
 }
 
 /**
@@ -167,6 +172,7 @@ function checkForMatch() {
 			
 			player1 = filteredArray1;
 			player2 = filteredArray2;
+			gameOver();
 			
 		} else {
 			console.log("GO FISH!");
@@ -200,6 +206,7 @@ function checkForMatch() {
 			player1 = filteredArray1;
 			player2 = filteredArray2;
 			
+			gameOver();
 		} else {
 			console.log("GO FISH");
 			player2.push(shuffledArray[0]);
@@ -218,6 +225,19 @@ function checkForMatch() {
 	player2Cards.innerHTML = player2;
 	cardsRemaining.innerHTML = shuffledArray;
 	currentPlayer.innerHTML = "Player " + whosTurn;
+}
+
+function gameOver() {
+	if (player1.length === 0 || player2.length === 0) {
+		if (player1TotalPoints > player2TotalPoints) {
+			alert('GAME OVER: Player 1 Wins ' + player1TotalPoints + 'to ' + player2TotalPoints);
+		}
+		else if(player1TotalPoints === player2TotalPoints){
+			alert('GAME OVER: Tie Game ' + player1TotalPoints + 'to ' + player2TotalPoints);
+		} else {
+			alert('GAME OVER: Player 2 Wins ' + player2TotalPoints + 'to ' + player1TotalPoints);
+		}
+	}
 }
 
 // Click events
