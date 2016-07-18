@@ -34,21 +34,21 @@ function initCardsArray(){
 	for (var j = 0; j < 4; j++) {
 		
 		for (var i = 1; i < (numberOfCards/4) + 1; i++) {
-//			switch (j) {
-//				case 0:
-//					cardsArray.push(i + '(S)');
-//					break;
-//				case 1:
-//					cardsArray.push(i + '(H)');
-//					break;
-//				case 2:
-//					cardsArray.push(i + '(C)');
-//					break;
-//				case 3:
-//					cardsArray.push(i + '(D)');
-//					break;
-//			}			
-			cardsArray.push(i);
+			switch (j) {
+				case 0:
+					cardsArray.push({val: i, suit: 'spade'});
+					break;
+				case 1:
+					cardsArray.push({val: i, suit: 'heart'});
+					break;
+				case 2:
+					cardsArray.push({val: i, suit: 'diamond'});
+					break;
+				case 3:
+					cardsArray.push({val: i, suit: 'club'});
+					break;
+			}			
+			
 		}
 	}
 	return cardsArray;
@@ -117,9 +117,17 @@ function dealCards() {
 	removeInitialPairs();
 	//get remainder of cards top put in draw pile
 	shuffledArray.splice(0, shuffledArray.length - (numberOfCards - (cardsPerPlayer * numberOfPlayers)));
-	cardsRemaining.innerHTML = shuffledArray;
+	createCards();
 }
-
+function createCards() {
+	for (item in shuffledArray){
+		var itemVal = shuffledArray[item].val;
+		var itemSuit = shuffledArray[item].suit;
+		var itemCounter = parseInt(item) + 1;
+		
+		cardsRemaining.innerHTML += '<div id="card' + itemCounter + '" class="card-container"><span class="card-value">'+ itemVal +'</span><i class="suit ' + itemSuit + '"></i></div>'	;
+	}
+}
 function removeInitialPairs() {
 	//remove pairs in players hand
 	player1OriginalLength = player1.length;

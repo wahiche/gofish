@@ -32,3 +32,45 @@ label {
   margin-left: .25em;
   color: blue;
 }
+.cards-remaining {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.cards-remaining .card-container {
+  position: relative;
+  width: 120px;
+  height: 160px;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: white;
+  margin: 0 .5em .5em 0;
+}
+.cards-remaining .card-value {
+  position: absolute;
+  top: .25em;
+  left: .25em;
+}
+.cards-remaining .suit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 99px;
+  transform: translate(-50%, -50%);
+}
+.cards-remaining .suit.spade {
+  background: url(images/spade.png) no-repeat;
+  width: 77px;
+}
+.cards-remaining .suit.heart {
+  background: url(images/heart.png) no-repeat;
+  width: 87px;
+}
+.cards-remaining .suit.diamond {
+  background: url(images/diamond.png) no-repeat;
+  width: 73px;
+}
+.cards-remaining .suit.club {
+  background: url(images/club.png) no-repeat;
+  width: 100px;
+}

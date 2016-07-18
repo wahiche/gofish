@@ -32,3 +32,45 @@ body {
 			color: blue;
 		}
 	}
+.cards-remaining {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	.card-container {
+		position: relative;
+		width: 120px;
+		height: 160px;
+		border: 1px solid;
+		border-radius: 5px;
+		background-color: white;
+		margin: 0 .5em .5em 0;
+	}
+	.card-value {
+		position: absolute;
+		top: .25em;
+		left: .25em;
+	}
+	.suit {
+		position: absolute;
+		top: 50%;
+    left: 50%;
+		height: 99px;
+		transform: translate(-50%,-50%);
+		&.spade {
+			background: url(images/spade.png) no-repeat;
+			width: 77px;
+		}
+		&.heart {
+			background: url(images/heart.png) no-repeat;
+			width: 87px;
+		}
+		&.diamond {
+			background: url(images/diamond.png) no-repeat;
+			width: 73px;
+		}
+		&.club {
+			background: url(images/club.png) no-repeat;
+			width: 100px;
+		}
+	}
+}
