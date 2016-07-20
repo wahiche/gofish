@@ -1,14 +1,9 @@
 var numberOfCards = 52;
 var numberOfPlayers = 2;
 var cardsPerPlayer = 8;
-
 var cardToMatchInput = document.getElementById('cardToMatchInput');
 var cardToMatchValue;
-
-var startGameBtn = document.getElementById('startGame'); 
-var cardValueBtn = document.getElementById('cardValue');
 var resultsContainer = document.getElementById('results');
-
 var cardsRemaining = document.getElementById('cardsRemaining');
 
 //array Variables
@@ -28,27 +23,35 @@ var player1TotalPoints = 0;
 var player2TotalPoints = 0;
 var duplicates = 0;
 var numDuplicates = 0;
+var gameOverModal = document.getElementById('modal');
+var gameOverModalText = document.getElementById('modalText');
+
+// Button Variables
+var startGameBtn = document.getElementById('startGame'); 
+var cardValueBtn = document.getElementById('cardValue');
+var restartBtn = document.getElementById('restart');
+var quitBtn = document.getElementById('quit');
 //Game Logic
 
 function initCardsArray(){
 	for (var j = 0; j < 4; j++) {
 		
 		for (var i = 1; i < (numberOfCards/4) + 1; i++) {
-			switch (j) {
-				case 0:
-					cardsArray.push({val: i, suit: 'spade'});
-					break;
-				case 1:
-					cardsArray.push({val: i, suit: 'heart'});
-					break;
-				case 2:
-					cardsArray.push({val: i, suit: 'diamond'});
-					break;
-				case 3:
-					cardsArray.push({val: i, suit: 'club'});
-					break;
-			}			
-			
+//			switch (j) {
+//				case 0:
+//					cardsArray.push({val: i, suit: 'spade'});
+//					break;
+//				case 1:
+//					cardsArray.push({val: i, suit: 'heart'});
+//					break;
+//				case 2:
+//					cardsArray.push({val: i, suit: 'diamond'});
+//					break;
+//				case 3:
+//					cardsArray.push({val: i, suit: 'club'});
+//					break;
+//			}			
+			cardsArray.push(i);
 		}
 	}
 	return cardsArray;
@@ -73,7 +76,6 @@ function shuffleArray(array) {
 }
 
 function removeDuplicates(arr) {
-		var currentArrayLength = arr.length;
     var counts = {};
     for(var i=0; i<arr.length; i++) {
         var item = arr[i];
@@ -112,21 +114,22 @@ function dealCards() {
 		player1.push(shuffledArray[i*numberOfPlayers]);
 		player2.push(shuffledArray[i*numberOfPlayers + 1]);
 	}
-	console.log("Initial Hand P1: ", player1);
-	console.log("Initial Hand P2: ", player2);
+	//console.log("Initial Hand P1: ", player1);
+	//console.log("Initial Hand P2: ", player2);
 	removeInitialPairs();
 	//get remainder of cards top put in draw pile
 	shuffledArray.splice(0, shuffledArray.length - (numberOfCards - (cardsPerPlayer * numberOfPlayers)));
 	createCards();
 }
 function createCards() {
-	for (item in shuffledArray){
-		var itemVal = shuffledArray[item].val;
-		var itemSuit = shuffledArray[item].suit;
-		var itemCounter = parseInt(item) + 1;
-		
-		cardsRemaining.innerHTML += '<div id="card' + itemCounter + '" class="card-container"><span class="card-value">'+ itemVal +'</span><i class="suit ' + itemSuit + '"></i></div>'	;
-	}
+//	for (item in shuffledArray){
+//		var itemVal = shuffledArray[item].val;
+//		var itemSuit = shuffledArray[item].suit;
+//		var itemCounter = parseInt(item) + 1;
+//		
+//		cardsRemaining.innerHTML += '<div id="card' + itemCounter + '" class="card-container"><span class="card-value">'+ itemVal +'</span><i class="suit ' + itemSuit + '"></i></div>'	;
+//	}
+	cardsRemaining.innerHTML = shuffledArray;
 }
 function removeInitialPairs() {
 	//remove pairs in players hand
@@ -164,8 +167,7 @@ function removeInitialPairs() {
 function checkForMatch() {
 	if (whosTurn === 1) {
 		if (player2.indexOf(cardToMatchValue) != -1 ){
-			console.log("MATCH P1");
-			
+			//console.log("MATCH P1");
 			var filteredArray1 = player1.filter(function(e){
 				return e!==cardToMatchValue;
 			});
@@ -180,10 +182,9 @@ function checkForMatch() {
 			
 			player1 = filteredArray1;
 			player2 = filteredArray2;
-			gameOver();
 			
 		} else {
-			console.log("GO FISH!");
+			//console.log("GO FISH!");
 			player1.push(shuffledArray[0]);
 			initPlayer1 = player1;
 			player1 = removeDuplicates(player1);
@@ -197,8 +198,7 @@ function checkForMatch() {
 	} 
 	else {
 		if (player1.indexOf(cardToMatchValue) != -1 ){
-			console.log("MATCH P2");
-			
+			//console.log("MATCH P2");
 			var filteredArray1 = player1.filter(function(e){
 				return e!==cardToMatchValue;
 			});
@@ -213,10 +213,8 @@ function checkForMatch() {
 			
 			player1 = filteredArray1;
 			player2 = filteredArray2;
-			
-			gameOver();
 		} else {
-			console.log("GO FISH");
+			//console.log("GO FISH");
 			player2.push(shuffledArray[0]);
 			initPlayer2 = player2;
 			player2 = removeDuplicates(player2);
@@ -233,31 +231,34 @@ function checkForMatch() {
 	player2Cards.innerHTML = player2;
 	cardsRemaining.innerHTML = shuffledArray;
 	currentPlayer.innerHTML = "Player " + whosTurn;
+	gameOver();
 }
 
 function gameOver() {
 	if (player1.length === 0 || player2.length === 0) {
+		gameOverModal.style.display = 'block';
 		if (player1TotalPoints > player2TotalPoints) {
-			alert('GAME OVER: Player 1 Wins ' + player1TotalPoints + 'to ' + player2TotalPoints);
+			gameOverModalText.innerHTML = 'GAME OVER: Player 1 Wins ' + player1TotalPoints + ' to ' + player2TotalPoints;
 		}
 		else if(player1TotalPoints === player2TotalPoints){
-			alert('GAME OVER: Tie Game ' + player1TotalPoints + 'to ' + player2TotalPoints);
+			gameOverModalText.innerHTML = 'GAME OVER: Tie Game ' + player1TotalPoints + ' to ' + player2TotalPoints;
 		} else {
-			alert('GAME OVER: Player 2 Wins ' + player2TotalPoints + 'to ' + player1TotalPoints);
+			gameOverModalText.innerHTML = 'GAME OVER: Player 2 Wins ' + player2TotalPoints + ' to ' + player1TotalPoints;
 		}
 	}
 }
 
 // Click events
-startGameBtn.onclick = function() {
+function startGame() {
+	gameOverModal.style.display = 'none';
 	resetValues();
 	initCardsArray();
 	shuffleCards();
-	console.log(shuffleCards());
+	//console.log(shuffleCards());
 	dealCards();
 };
 
-cardValueBtn.onclick = function() {
+function cardValueMatch() {
 	if (cardToMatchInput.value === '' ) {
 		console.log("Value cannot be blank");
 		cardToMatchInput.style.border = '1px solid red';
@@ -268,6 +269,26 @@ cardValueBtn.onclick = function() {
 	}
 };
 
-//resultsContainer.innerHTML = cardsArray;
+
+startGameBtn.onclick = startGame;
+
+cardValueBtn.onclick = cardValueMatch;
+
+cardToMatchInput.addEventListener("keypress", function(event) {
+    if (event.keyCode == 13) {
+			event.preventDefault();
+			cardValueMatch();
+		} else {
+			return false;
+		}
+        
+});
+
+restartBtn.onclick = startGame;
+
+quitBtn.onclick = function() {
+	resetValues();
+	gameOverModal.style.display = 'none';
+}
 
 //var randomCard = Math.floor(Math.random() * (cardsArray.length - 1));

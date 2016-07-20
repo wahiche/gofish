@@ -1,5 +1,8 @@
+*, *:before, *:after {
+	box-sizing: border-box;
+}
 body {
-		font-family: sans-serif;
+		font-family: 'Open Sans', sans-serif;
 	}
 	label {
 		display: block;
@@ -72,5 +75,64 @@ body {
 			background: url(images/club.png) no-repeat;
 			width: 100px;
 		}
+	}
+}
+
+.modal-wrapper {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: fade(black, 60%);
+}
+.modal-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	padding: .5em;
+	background-color: white;
+	border: 2px solid black;
+	border-radius: .5em;
+	width: 50vw;
+	display: flex;
+	flex-direction: column;
+	
+	justify-content: space-between;
+	> div {
+		padding: .5em;
+		width: 100%;
+		text-align: center;
+	}
+	.modal-header{
+		font-family: 'Raleway', sans-serif;
+		font-weight: 700;
+		font-size: 2em;
+		border-bottom: 1px solid black;
+	}
+	.modal-body {
+		border-bottom: 1px solid black;
+	}
+}
+
+.btn {
+	background-color: transparent;
+	border: none;
+	border-radius: .25em;
+	padding: .5em;
+	text-transform: uppercase;
+	font-weight: 600;
+	
+	&.primary {
+		background-color: lightskyblue;
+		border: 1px solid darken(lightskyblue, 10%);
+	}
+	&.secondary {
+		background-color: lightgrey;
+		border: 1px solid darken(lightgrey, 10%);
 	}
 }

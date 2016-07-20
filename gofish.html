@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Go Fish</title>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 	<link rel="stylesheet" href="default.css">
 </head>
 <body>
@@ -17,13 +19,13 @@
 		</div>
 -->
 		<div class="form-group">
-			<button type="button" id="startGame">Start Game</button>
+			<button type="button" id="startGame" class="btn primary">Start Game</button>
 		</div>
 		<div class="form-group">
 			<label for="cardToMatchInput">Which card are you looking for?</label>
-			<input id="cardToMatchInput" type="text" placeholder="Do You have?">
+			<input id="cardToMatchInput" type="text">
 			<div class="error-message">Please enter a numeric value between 1 and 13</div>
-			<button type="button" id="cardValue">Do You have?</button>
+			<button type="button" id="cardValue" class="btn primary">Do You have?</button>
 		</div>
 	</form>
 	
@@ -44,7 +46,18 @@
 		<label>Cards Remaining</label>
 		<div id="cardsRemaining" class="cards-remaining"></div>
 	</div>
-	
+	<div id="modal" class="modal-wrapper">
+		<div class="modal-container">
+			<div class="modal-header">GAME OVER</div>
+			<div id="modalText" class="modal-body">sdfasdfasdf</div>
+			<div class="modal-footer">
+				<div class="buttons">
+					<button id="restart" type="button" class="btn primary">START OVER</button>
+					<button id="quit" type="button" class="btn secondary">QUIT</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script src="gofish.js"></script>
 </body>
 </html>
